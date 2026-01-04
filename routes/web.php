@@ -16,25 +16,26 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\SubreviewController as AdminSubreviewController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('productIndex');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::prefix('site')->group(function () {
-        Route::get('/products/index', [ProductController::class, 'index'])->name('productIndex');
-        Route::post('/products/store', [ProductController::class, 'store'])->name('productStore');
-        Route::get('/products/reviews/{id}', [ReviewController::class, 'index'])->name('productReviews');
-        Route::post('/products/reviews/store', [ReviewController::class, 'store'])->name('productReviewsStore');
-        Route::get('/products/product/{id}', [ProductController::class, 'product'])->name('product');
+Route::prefix('site')->group(function () {
+    Route::get('/products/index', [ProductController::class, 'index'])->name('productIndex');
+    Route::post('/products/store', [ProductController::class, 'store'])->name('productStore');
+    Route::get('/products/reviews/{id}', [ReviewController::class, 'index'])->name('productReviews');
+    Route::post('/products/reviews/store', [ReviewController::class, 'store'])->name('productReviewsStore');
+    Route::get('/products/product/{id}', [ProductController::class, 'product'])->name('product');
 
-        Route::get('/products/reviews/subreviews/index/{product_id}/{id}', [SubreviewController::class, 'index'])->name('subreviewIndex');
-        Route::post('/products/reviews/subreviews/store', [SubreviewController::class, 'store'])->name('subreviewStore');
+    Route::get('/products/reviews/subreviews/index/{product_id}/{id}', [SubreviewController::class, 'index'])->name('subreviewIndex');
+    Route::post('/products/reviews/subreviews/store', [SubreviewController::class, 'store'])->name('subreviewStore');
 
-        Route::get('/orders/index', [OrderController::class, 'index'])->name('orderIndex');
-        Route::post('/orders/store', [OrderController::class, 'store'])->name('orderStore');
-    });
-});
+    Route::get('/orders/index', [OrderController::class, 'index'])->name('orderIndex');
+    Route::post('/orders/store', [OrderController::class, 'store'])->name('orderStore');
 
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+}); 
 
 /* Admin Panel */
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
@@ -44,7 +45,8 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
         })->middleware(['auth', 'verified'])->name('dashboard');
 
         Route::get('/user', [UserController::class, 'index'])->name('userIndex');
-        Route::post('/user/edit', [UserController::class, 'edit'])->name('userEdit');
+        Route::post('/user/edit/{id}', [UserController::class, 'edit'])->name('userEdit');
+        Route::delete('/user/delete/{id}', [UserController::class, 'delete'])->name('userDelete');
 
         Route::get('/category', [CategoryController::class, 'index'])->name('categoryIndex');
         Route::get('/category/create', [CategoryController::class, 'create'])->name('categoryCreate');
@@ -77,10 +79,6 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
         Route::get('/orders/index', [AdminOrderController::class, 'index'])->name('adminOrderIndex');
         Route::delete('/orders/delete/{id}', [AdminOrderController::class, 'delete'])->name('orderDelete');
     });
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

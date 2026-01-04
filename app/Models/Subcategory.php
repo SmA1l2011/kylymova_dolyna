@@ -33,10 +33,10 @@ class Subcategory extends Model
         }
     }
 
-    public static function subcategoryCreate($data)
+    public static function subcategoryCreate($data, $category_id)
     {
         DB::table("subcategories")->insert([
-            "category_id" => $data["category_id"],
+            "category_id" => $category_id,
             "title" => $data["title"],
             "description" => $data["description"],
             "created_at" => now(),
@@ -44,10 +44,10 @@ class Subcategory extends Model
         ]);
     }
 
-    public static function subcategoryUpdate($data, $id)
+    public static function subcategoryUpdate($data, $id, $category_id)
     {
         DB::table("subcategories")->where('id', $id)->update([
-            "category_id" => $data["category_id"],
+            "category_id" => $category_id,
             "title" => $data["title"],
             "description" => $data["description"],
             "updated_at" => now(),

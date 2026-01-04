@@ -21,7 +21,7 @@
                                 <form action="{{ route('subcategoryDelete', $subcategory->id) }}" method="post">
                                     @csrf
                                     @method("delete")
-                                    <input type="submit" value="delete">
+                                    <input class="table-submit" type="submit" value="delete">
                                 </form>
                             </td>
                         </tr>

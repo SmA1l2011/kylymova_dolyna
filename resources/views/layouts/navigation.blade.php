@@ -1,25 +1,25 @@
-<nav x-data="{ open: false }" class="nav-menu bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="nav-menu bg-white dark:bg-gray-800">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('productIndex') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="nav-links hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('productIndex')" :active="request()->routeIs('productIndex')">
-                        {{ __('Catalog') }}
+                        {{ __('Каталог') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="nav-links hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('orderIndex')" :active="request()->routeIs('orderIndex')">
-                        {{ __('Card') }}
+                        {{ __('Кошик') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                            <button class="profile-button inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->name }}</div>
 
                                 <div class="ms-1">
@@ -41,7 +41,7 @@
 
                         <x-slot name="content">
                             <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
+                                {{ __('Профіль') }}
                             </x-dropdown-link>
 
                             <!-- Authentication -->
@@ -51,7 +51,7 @@
                                 <x-dropdown-link :href="route('logout')"
                                         onclick="event.preventDefault();
                                                     this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('Вихід') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
@@ -59,14 +59,16 @@
                 </div>
             @else
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('login') }}">login</x-nav-link>
-                    <x-nav-link href="{{ route('register') }}">register</x-nav-link>
+                    <x-nav-link href="{{ route('login') }}">вхід</x-nav-link>
+                    <x-nav-link href="{{ route('register') }}">зареєструватися</x-nav-link>
                 </div>
             @endif
             
-            @if(auth()->user()->role === "admin")
-                <!-- Button for admin panel -->
-                <x-nav-link class="adminButton" href="{{ route('dashboard') }}">Admin</x-nav-link>
+            <!-- Button for admin panel -->
+            @if(auth()->user() && auth()->user()->role === "admin")
+                <div class="nav-links nav-links__adminButton hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('adminProductIndex') }}">Панель Адміністратора</x-nav-link>
+                </div>
             @endif
 
             <!-- Hamburger -->
@@ -95,7 +97,7 @@
             </x-responsive-nav-link>
         </div>
         
-        @if(auth()->user()->role === "admin")
+        @if(auth()->user() && auth()->user()->role === "admin")
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                 <x-nav-link :href="route('categoryIndex')" :active="request()->routeIs('categoryIndex')">
                     {{ __('Category') }}

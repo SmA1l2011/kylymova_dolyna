@@ -19,10 +19,10 @@ class Product extends Model
         'title',
         'description',
         'price',
-        'stock',
+        'picture',
     ];
 
-    public static function getAllProducts($sortBy = "id", $filters = [], $productsArr = [])
+    public static function getAllProducts($sortBy = "id", $filters = [], $productsArr = [], $categoryIds = [])
     {
         $query = Product::query();
         if (!empty($filters["title"])) {
@@ -33,6 +33,13 @@ class Product extends Model
         }
         if (!empty($filters["maxPrice"])) {
             $query->where("price", "<=", $filters["maxPrice"]);
+        }
+        if (!empty($filters["category"]) && $filters["category"] !== "all") {
+            if (empty($filters["subcategory"]) || $filters["subcategory"] == "all") {
+                foreach ($categoryIds[$filters["category"]] as $categoryId) {
+                    $query->where("subcategory_id", $categoryId->id, NULL, "or");
+                }
+            }
         }
         if (!empty($filters["subcategory"]) && $filters["subcategory"] !== "all") {
             $query->where("subcategory_id", $filters["subcategory"]);
@@ -45,24 +52,38 @@ class Product extends Model
             $query->whereIn("id", $arr);
         }
         $query = $query->get();
-        if ($sortBy == "priceD") {
-            $products = $query->sortBy("price", SORT_REGULAR, "desc");
-        } elseif ($sortBy == "priceU") {
-            $products = $query->sortBy("price");
-        } else {
-            $products = $query->sortBy($sortBy);
+        switch ($sortBy) {
+            case "newest":
+                $products = $query->sortBy("created_at", SORT_REGULAR, "desc");
+            break;
+
+            case "oldest":
+                $products = $query->sortBy("created_at");
+            break;
+
+            case "priceU":
+                $products = $query->sortBy("price");
+            break;
+            
+            case "priceD":
+                $products = $query->sortBy("price", SORT_REGULAR, "desc");
+            break;
+            
+            default:
+                $products = $query->sortBy($sortBy);
+            break;
         }
         return $products;
     }
 
-    public static function productCreate($data)
+    public static function productCreate($data, $picture)
     {
         DB::table("products")->insert([
             "subcategory_id" => $data["subcategory_id"],
             "title" => $data["title"],
             "description" => $data["description"],
             "price" => $data["price"],
-            "stock" => $data["stock"],
+            "picture" => $picture,
             "created_at" => now(),
             "updated_at" => now(),
         ]);
@@ -75,7 +96,6 @@ class Product extends Model
             "title" => $data["title"],
             "description" => $data["description"],
             "price" => $data["price"],
-            "stock" => $data["stock"],
             "updated_at" => now(),
         ]);
     }
@@ -85,8 +105,8 @@ class Product extends Model
         DB::table("products")->where('id', $id)->delete();
     }
 
-    public static function getProduct($id): Collection
+    public static function getProduct($id): Product
     {
-        return DB::table("products")->where("id", $id)->get();
+        return Product::findOrFail($id);
     }
 }

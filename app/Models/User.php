@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
+        'role',
     ];
 
     /**
@@ -42,6 +43,7 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
     protected function casts(): array
     {
         return [
@@ -59,16 +61,20 @@ class User extends Authenticatable
         }
     }
 
-    public static function userUpdate($data)
+    public static function userUpdate($data, $id)
     {
-        DB::table("users")->where('id', $data["id"])->update([
+        User::findOrFail($id)->update([
             "name" => $data["name"],
             "surname" => $data["surname"],
             "email" => $data["email"],
             "phone" => $data["phone"],
             "password" => Hash::make($data["password"]),
             "role" => $data["role"],
-            "updated_at" => now(),
         ]);
+    }
+
+    public static function userDelete($id)
+    {
+        DB::table("users")->where('id', $id)->delete();
     }
 }

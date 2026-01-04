@@ -68,17 +68,14 @@
         <div class="wrapper flex">
             @foreach ($allProducts as $product)
                 <a href="{{ route('adminProduct', $product->id) }}" class="product">
-                    <div class="text-info">
-                        @if($product->isScroll === true)
-                            <h2 style="overflow-x: scroll;" >{{ $product->title }}</h2>
-                        @else
-                            <h2>{{ $product->title }}</h2>
-                        @endif
-                        <p>{{ $product->description }}</p>
-                    </div>
-                    <div class="num-info">
-                        <b>{{ $product->price }}$</b>
-                        <b>stock: {{ $product->stock }}</b>
+                    @if ($product->picture == NULL)
+                        <img src="{{ Vite::asset('resources/img/carpet.jpg') }}" alt="#">
+                    @else
+                        <img src="{{ Vite::asset('resources/img/' . $product->picture) }}" alt="{{ $product->title }}" class="picture">
+                    @endif
+                    <div>
+                        <h2>{{ $product->title }}</h2>
+                        <b>{{ $product->price }}₴</b>
                     </div>
                 </a>
             @endforeach

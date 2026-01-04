@@ -5,11 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Http\Services\GoogleTagManeger;
+use Mockery\Undefined;
 
 class ProductController extends Controller
 {
+    protected GoogleTagManeger $service;
+
+    public function __construct(GoogleTagManeger $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
         if (isset($_GET["sortBy"])) {
@@ -63,33 +73,62 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        // dd($request->all());
-        Product::productCreate($request->validated());
+        $allProducts = Product::getAllProducts();
+        if (isset($allProducts[0])) {
+            $pictureNumber = $allProducts->last()->id + 1;
+        } else {
+            $pictureNumber = 1;
+        }
+        $fileTypeArr = explode(".", $request->all("picture")["picture"]->getClientOriginalName());
+        $fileType = $fileTypeArr[count(explode(".", $request->all("picture")["picture"]->getClientOriginalName())) - 1];
+        $fileName = "productPicture-" . $pictureNumber . "." . $fileType;
+        $targetFile = "../resources/img/" . $fileName;
+        Product::productCreate($request->validated(), $fileName);
+        move_uploaded_file($request->file("picture")->getRealPath(), $targetFile);
         return to_route("adminProductIndex");
     }
 
     public function edit(int $id)
     {
-        $product = Product::getProduct($id)[0];
+        $product = Product::getProduct($id);
         $allSubcategories = Subcategory::getSubcategories();
         return view("admin/products/edit", compact("product", "allSubcategories"));
     }
 
     public function update(ProductRequest $request, $id)
-    {
+    {  
+        if($request->all("picture")["picture"] !== null) {
+            $product = Product::getProduct($id);
+            $path = public_path('../resources/img/' . $product->picture);
+            if (File::exists($path)) {
+                File::delete($path);
+            }
+
+            $targetFile = "../resources/img/" . $product->picture;
+            move_uploaded_file($request->file("picture")->getRealPath(), $targetFile);
+        }
+
         Product::productUpdate($request->validated(), $id);
         return to_route("adminProduct", $id);
     }
 
     public function delete($id)
     {
+        $product = Product::getProduct($id);
+        $path = public_path('../resources/img/' . $product->picture);
+        if (File::exists($path)) {
+            File::delete($path);
+        }
         Product::productDelete($id);
         return to_route("adminProductIndex");
     }
 
     public function product(int $id)
     {
-        $product = Product::getProduct($id)[0];
-        return view("admin/products/product", compact("product"));
+        $product = Product::getProduct($id);
+
+        $productGTM = $this->service->viewProductPage($product);
+
+        return view("admin/products/product", compact("product", "productGTM"));
     }
 }

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="slot">
-        <form action="{{ route('adminProductStore') }}" method="post">
+        <form action="{{ route('adminProductStore') }}" method="post" enctype="multipart/form-data">
             @csrf
             <select name="subcategory_id">
                 @foreach ($allSubcategories as $subcategory)
@@ -29,8 +29,8 @@
                 @enderror
             </div>
             <div>
-                <input type="number" name="stock" placeholder="stock">
-                @error("stock")
+                <input type="file" name="picture">
+                @error("picture")
                     <p class="err">{{ $message }}</p>
                 @enderror
             </div>

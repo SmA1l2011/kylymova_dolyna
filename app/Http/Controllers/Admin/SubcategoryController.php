@@ -6,6 +6,7 @@ use App\Models\Subcategory;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\SubcategoryRequest;
 
 class SubcategoryController extends Controller
 {
@@ -20,14 +21,9 @@ class SubcategoryController extends Controller
         return view("admin/subcategories/create");
     }
 
-    public function store(Request $request)
+    public function store(SubcategoryRequest $request)
     {
-        $data = [
-            "category_id" => $request->post("category_id"),
-            "title" => $request->post("title"),
-            "description" => $request->post("description"),
-        ];
-        Subcategory::subcategoryCreate($data);
+        Subcategory::subcategoryCreate($request->validated(), $request->post("category_id"));
         return to_route("subcategoryIndex", $request->post("category_id"));
     }
 
@@ -38,14 +34,9 @@ class SubcategoryController extends Controller
         return view("admin/subcategories/edit", compact("allCategories", "subcategory"));
     }
 
-    public function update(Request $request, $id)
+    public function update(SubcategoryRequest $request, $id)
     {
-        $data = [
-            "category_id" => $request->post("category_id"),
-            "title" => $request->post("title"),
-            "description" => $request->post("description"),
-        ];
-        Subcategory::subcategoryUpdate($data, $id);
+        Subcategory::subcategoryUpdate($request->validated(), $id, $request->post("category_id"));
         return to_route("subcategoryIndex", $request->post("oldCategory_id"));
     }
 

@@ -12,8 +12,18 @@
                     @endif
                 @endforeach
             </select>
-            <input type="text" name="title" value="{{ $subcategory->title }}">
-            <input type="text" name="description" value="{{ $subcategory->description }}">
+            <div>
+                <input type="text" name="title" value="{{ $subcategory->title }}">
+                @error("title")
+                    <p class="err">{{ $message }}</p>
+                @enderror
+            </div>
+            <div>
+                <input type="text" name="description" value="{{ $subcategory->description }}">
+                @error("description")
+                    <p class="err">{{ $message }}</p>
+                @enderror
+            </div>
             <input type="hidden" name="oldCategory_id" value="{{ request('category_id') }}">
             <input type="submit" value="Update">
         </form>

@@ -1,9 +1,9 @@
 <x-app-layout>
     <x-slot name="slot">
-        <form action="{{ route('adminProductUpdate', $product->id) }}" method="post">
+        <form action="{{ route('adminProductUpdate', $product->id) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method("patch")
-            <select name="subcategory">
+            <select name="subcategory_id">
                 @foreach ($allSubcategories as $subcategory)
                     @if ($subcategory->id == $product->subcategory_id) 
                         <option selected value="{{ $subcategory->id }}">{{ $subcategory->title }}</option>
@@ -31,8 +31,8 @@
                 @enderror
             </div>
             <div>
-                <input type="number" name="stock" value="{{ $product->stock }}">
-                @error("stock")
+                <input type="file" name="picture">
+                @error("picture")
                     <p class="err">{{ $message }}</p>
                 @enderror
             </div>

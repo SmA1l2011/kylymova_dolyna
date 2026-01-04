@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Subreview;
+use App\Http\Requests\SubreviewRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -14,15 +15,9 @@ class SubreviewController extends Controller
         return view("site/products/subreviews", compact("allSubreviews"));
     }
 
-    public function store(Request $request)
+    public function store(SubreviewRequest $request)
     {
-        $data = [
-            "review_id" => $request->post("id"),
-            "user_id" => auth()->user()->id,
-            "rating" => $request->post("rating"),
-            "comment" => $request->post("comment"),
-        ];
-        Subreview::subreviewCreate($data);
-        return to_route("subreviewIndex", [$request->post("product_id"), $request->post("id")]);
+        Subreview::subreviewCreate($request->validated());
+        return to_route("subreviewIndex", [$request->post("product_id"), $request->post("review_id")]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -25,9 +26,15 @@ class UserController extends Controller
         return to_route("userIndex");
     }
 
-    public function edit(Request $request)
+    public function edit(UserRequest $request, int $id)
     {
-        User::userUpdate($request->post());
+        User::userUpdate($request->validated(), $id);
+        return to_route("userIndex");
+    }
+
+    public function delete($id)
+    {
+        User::userDelete($id);
         return to_route("userIndex");
     }
 }

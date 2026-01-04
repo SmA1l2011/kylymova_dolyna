@@ -13,5 +13,11 @@
                 <input type="submit" value="delete">
             </form>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                window.dataLayer.push(@json($productGTM))
+                console.log(dataLayer)
+            })
+        </script>
     </x-slot>
 </x-app-layout>

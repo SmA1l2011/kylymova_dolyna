@@ -34,8 +34,21 @@
                 <span class="star" id="star"></span>
             </div>
             <textarea name="comment" cols="90" rows="1.5"></textarea>
-            <input type="hidden" name="id" value="{{ request('id') }}">
+            <input type="hidden" name="product_id" value="{{ request('id') }}">
+            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
             <input type="submit" name="send" value="">
+            @error("product_id")
+                <p class="err">{{ $message }}</p>
+            @enderror
+            @error("user_id")
+                <p class="err">{{ $message }}</p>
+            @enderror
+            @error("rating")
+                <p class="err">{{ $message }}</p>
+            @enderror
+            @error("comment")
+                <p class="err">{{ $message }}</p>
+            @enderror
         </form>
     </x-slot>
 </x-app-layout>

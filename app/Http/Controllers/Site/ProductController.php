@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\Subcategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
@@ -26,19 +27,38 @@ class ProductController extends Controller
                     $sortBy = "priceU";
                     break;
 
+                case "oldest":
+                    $sortBy = "oldest";
+                    break;
+
                 default:
-                    $sortBy = "id";
+                    $sortBy = "newest";
                     break;
             }
         } else {
-            $sortBy = "id";
+            $sortBy = "newest";
         }
         $filters = [];
         foreach ($_GET as $key => $value) {
             $filters[$key] = $value;
         }
+        $allCategories = Category::getAllCategories();
         $allSubcategories = Subcategory::getSubcategories();
-        $allProducts = Product::getAllProducts($sortBy, $filters);
+        $categoryIds = [];
+        foreach ($allCategories as $category) {
+            $categoryIds[$category->id] = [];
+        }
+
+        foreach ($allSubcategories as $subcategory) {
+            foreach ($categoryIds as $key => $categoryId) {
+                if ($subcategory->category_id == $key) {
+                    $categoryIds[$key][] = $subcategory;
+                }
+            }
+        }
+        $allProducts = Product::getAllProducts($sortBy, $filters, [], $categoryIds);
+        $categoryIdsJson = json_encode($categoryIds);
+
         foreach ($allProducts as $key => $product) {
             $isOk = false;
             foreach (explode(" ", $product->title) as $title) {
@@ -52,7 +72,7 @@ class ProductController extends Controller
                 $allProducts[$key]->isScroll = false;
             }
         }
-        return view("site/products/index", compact("allProducts", "allSubcategories"));
+        return view("site/products/index", compact("allProducts", "allSubcategories", "allCategories", "categoryIds", "categoryIdsJson"));
     }
 
     public function store(Request $request)
@@ -72,7 +92,7 @@ class ProductController extends Controller
 
     public function product(int $id)
     {
-        $product = Product::getProduct($id)[0];
+        $product = Product::getProduct($id);
         return view("site/products/product", compact("product"));
     }
 }

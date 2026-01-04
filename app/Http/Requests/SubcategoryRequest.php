@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Request;
 
-class ProductRequest extends FormRequest
+class SubcategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,26 +19,19 @@ class ProductRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(Request $request): array
+    public function rules(): array
     {
-        // dd($request->all());
         return [
-            "subcategory_id" => ["required", "integer", "exists:subcategories,id"],
             "title" => ["required", "string", "max:255"],
             "description" => ["required", "string", "max:999"],
-            "price" => ["required", "numeric", "max:999999"],
-            "picture" => ["image", "mimes:jpg,jpeg,png,webp"],
         ];
     }
 
     public function messages()
     {
         return [
-            "subcategory_id" => "id is required and has to be no more than 11",
             "title" => "title is required and has to be no more than 255",
             "description" => "description is required and has to be no more than 999",
-            "price" => "price is required and has to be no more than 999",
-            "picture" => "picture is required and must be in jpg, jpeg, png, or webp format",
         ];
     }
 }

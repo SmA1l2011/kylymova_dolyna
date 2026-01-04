@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Models\Review;
+use App\Http\Requests\ReviewRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -14,15 +15,9 @@ class ReviewController extends Controller
         return view("site/products/reviews", compact("allReviews"));
     }
 
-    public function store(Request $request)
+    public function store(ReviewRequest $request)
     {
-        $data = [
-            "product_id" => $request->post("id"),
-            "user_id" => auth()->user()->id,
-            "rating" => $request->post("rating"),
-            "comment" => $request->post("comment"),
-        ];
-        Review::reviewCreate($data);
-        return to_route("productReviews", $request->post("id"));
+        Review::reviewCreate($request->validated());
+        return to_route("productReviews", $request->post("product_id"));
     }
 }

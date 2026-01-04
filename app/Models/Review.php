@@ -40,6 +40,8 @@ class Review extends Model
         }
         if (isset($get["sortBy"])) {
             $query->orderBy($get["sortBy"], $get["sortBy"] == "rating" ? "desc" : "asc");
+        } else {
+            $query->orderBy("id");
         }
         $reviews = $query->get();
         return $reviews;
