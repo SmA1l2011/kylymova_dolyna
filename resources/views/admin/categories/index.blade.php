@@ -1,6 +1,17 @@
 <x-app-layout>
+    <x-slot name="header">
+        <nav class="filter-sort">
+            <form action="{{ route('adminProductIndex') }}" method="get" class="search-block"> 
+                <div class="search">
+                    <span class="search-icon"></span>
+                    <input type="text" name="title" placeholder="Я шукаю..." value="{{ $_GET['title'] ?? '' }}">
+                    <input type="submit" value="Знайти">
+                </div>
+            </form>
+        </nav>
+    </x-slot>
     <x-slot name="slot">
-        <div class="wrapper">
+        <div class="wrapper category-wrapper">
             <table class="table">
                 <thead>
                     <tr>

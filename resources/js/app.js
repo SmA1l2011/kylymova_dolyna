@@ -31,20 +31,22 @@
         }
 
         let searchFilterBlock = document.querySelector(".search-filter__block"),
-            filtersButton = document.querySelector("#filters-button"),
-            filterSortBlock = document.querySelector(".filter-sort__block")
+            filtersButton = document.querySelector(".filters-button"),
+            filterSortBlock = document.querySelector(".filter-sort__block"),
+            clearFilterBlock = document.querySelector(".clear-filter__block")
 
         if (searchFilterBlock) {
             searchFilterBlock.onclick = function () {
                 filterSortBlock.classList.toggle("active")
                 filtersButton.classList.toggle("filters-button__active")
+                clearFilterBlock.classList.toggle("clear-filter__block-active")
             }
         }
 
-        let category = document.querySelector("#filter-block__category"),
+        let category = document.querySelector(".filter-block__category"),
             select = document.querySelector(".filter-block__subcategory"),
             options = document.querySelectorAll(".filter-block__option"),
-            categoryIdsJson = document.querySelector("#categoryIdsJson").value,
+            categoryIdsJson = document.querySelector(".categoryIdsJson").value,
             categoryIds = JSON.parse(categoryIdsJson),
             isOptionTrue
 

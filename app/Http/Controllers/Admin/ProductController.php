@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -24,31 +25,50 @@ class ProductController extends Controller
     {
         if (isset($_GET["sortBy"])) {
             switch ($_GET["sortBy"]) {
-                case "title":
+                case "Назва":
                     $sortBy = "title";
                     break;
 
-                case "price down":
+                case "Ціна вниз":
                     $sortBy = "priceD";
                     break;
 
-                case "price up":
+                case "Ціна вгору":
                     $sortBy = "priceU";
                     break;
 
+                case "Найдавніше":
+                    $sortBy = "oldest";
+                    break;
+
                 default:
-                    $sortBy = "id";
+                    $sortBy = "newest";
                     break;
             }
         } else {
-            $sortBy = "id";
+            $sortBy = "newest";
         }
         $filters = [];
         foreach ($_GET as $key => $value) {
             $filters[$key] = $value;
         }
+        $allCategories = Category::getAllCategories();
         $allSubcategories = Subcategory::getSubcategories();
-        $allProducts = Product::getAllProducts($sortBy, $filters);
+        $categoryIds = [];
+        foreach ($allCategories as $category) {
+            $categoryIds[$category->id] = [];
+        }
+
+        foreach ($allSubcategories as $subcategory) {
+            foreach ($categoryIds as $key => $categoryId) {
+                if ($subcategory->category_id == $key) {
+                    $categoryIds[$key][] = $subcategory;
+                }
+            }
+        }
+        $allProducts = Product::getAllProducts($sortBy, $filters, [], $categoryIds);
+        $categoryIdsJson = json_encode($categoryIds);
+
         foreach ($allProducts as $key => $product) {
             $isOk = false;
             foreach (explode(" ", $product->title) as $title) {
@@ -62,7 +82,7 @@ class ProductController extends Controller
                 $allProducts[$key]->isScroll = false;
             }
         }
-        return view("admin/products/index", compact("allProducts", "allSubcategories"));
+        return view("admin/products/index", compact("allProducts", "allSubcategories", "allCategories", "categoryIds", "categoryIdsJson"));
     }
 
     public function create()

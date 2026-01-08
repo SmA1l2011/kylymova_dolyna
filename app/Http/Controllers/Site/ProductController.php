@@ -15,19 +15,19 @@ class ProductController extends Controller
     {
         if (isset($_GET["sortBy"])) {
             switch ($_GET["sortBy"]) {
-                case "title":
+                case "Назва":
                     $sortBy = "title";
                     break;
 
-                case "price down":
+                case "Ціна вниз":
                     $sortBy = "priceD";
                     break;
 
-                case "price up":
+                case "Ціна вгору":
                     $sortBy = "priceU";
                     break;
 
-                case "oldest":
+                case "Найдавніше":
                     $sortBy = "oldest";
                     break;
 

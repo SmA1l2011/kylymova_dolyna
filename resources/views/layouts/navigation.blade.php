@@ -58,7 +58,7 @@
                     </x-dropdown>
                 </div>
             @else
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="nav-links hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('login') }}">вхід</x-nav-link>
                     <x-nav-link href="{{ route('register') }}">зареєструватися</x-nav-link>
                 </div>

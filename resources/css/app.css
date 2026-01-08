@@ -12,9 +12,65 @@ body .bg-block {
     width: 75%;
 }
 
+.category-wrapper,
+.user-wrapper {
+    padding-top: 100px;
+}
+
 .flex {
     display: flex;
     flex-wrap: wrap;
+}
+
+.product-page {
+    padding-top: 100px;
+    column-gap: 15px;
+}
+
+.product-page label {
+    position: relative;
+}
+
+.product-page label::before {
+    content: '';
+    position: absolute;
+    background: url(../img/cart-icon.svg);
+    top: 50%;
+    left: 55px;
+    width: 24px;
+    height: 24px;
+    transform: translateY(-50%);
+}
+
+.product-page input[type="submit"] {
+    padding: 10px 50px 10px 84px;
+    color: #fff;
+    background: #654321;
+    border: unset;
+    border-radius: 15px;
+}
+
+.product-page input[type="submit"]:hover {
+    background: #7e6a54;
+}
+
+.product-page .price-block {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+}
+
+.product-page .price-block .price {
+    font-size: 30px;
+}
+
+.product-page .picture-block {
+    width: 50%;
+}
+
+.product-page .picture-block img {
+    margin: 0 auto;
+    max-height: 70%;
 }
 
 body .profile-button {
@@ -68,9 +124,10 @@ input[type="submit"],
 
 input[type="submit"]:hover,
 .subreviewsButton:hover {
-    color: #fff; 
+    color: #000; 
     border-color: #fff; 
     background: transparent;
+    cursor: pointer;
 }
 
 body .nav-menu {
@@ -122,6 +179,41 @@ body .nav-menu {
     width: 60%;
 }
 
+.clear-filter__block {
+    position: fixed;
+    top: 152px;
+    right: 125px;
+    transition: all 0.3s ease;
+}
+
+.clear-filter__block-active {
+    transform: translateY(-200px);
+}
+
+.clear-filter__block span {
+    position: absolute;
+    background: #000;
+    width: 30px;
+    height: 3px;
+    border-radius: 1.5px;
+    top: 50%;
+    left: 6px;
+    transition: all 0.3s ease;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.clear-filter__block:hover span {
+    background: #fff;
+}
+
+.clear-filter__block span:nth-child(2) {
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+.clear-filter__block input[type="submit"] {
+    padding-left: 42px;
+}
+
 .filter-block label input[type="number"] {
     max-width: 100px;
 }
@@ -157,7 +249,7 @@ body .nav-menu {
 }
 
 .filter-sort .active {
-    transform: translateY(-150%);
+    transform: translateY(-250px);
 }
 
 .filter-sort .filters-button .rect {
@@ -275,7 +367,7 @@ body .nav-menu {
 h1 {
     font-size: 32px;
     font-weight: bold;
-    color: #fff;
+    color: #000;
     margin-bottom: 15px;
 }
 
@@ -339,13 +431,17 @@ h1 {
 
 .table td, 
 .table th {
-    border: 1px solid #fff;
+    border: 1px solid #000;
 }
 
 p,
 a,
 .table td, 
 .table th {
+    color: #000;
+}
+
+header p {
     color: #fff;
 }
 
@@ -404,20 +500,19 @@ a,
     color: #000;
 }
 
-.product-createButton {
-    top: 76px;
-    left: 10px;
-    max-width: 200px;
-    padding: 12px 50px;
+.filter-sort .product-createButton {
+    top: 0;
+    left: -132px;
+    padding: 8px 20px;
     border: 1px solid #fff;
     color: #fff;
     position: absolute;
+    z-index: 3;
     transition: all 0.2s ease;
 }
 
 .product-createButton:hover {
-    background: #fff;
-    color: #000;
+    background: #7e6a54;
 }
 
 .review-block {
@@ -523,9 +618,4 @@ a,
 .orderTable input {
     color: #000;
     width: 100%;
-}
-
-.review__form input[type="submit"]:hover,
-.orderTable input[type="submit"]:hover {
-    color: #fff;
 }

@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="nav-menu bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="nav-menu bg-white dark:bg-gray-800">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -11,31 +11,31 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="nav-links hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('userIndex')" :active="request()->routeIs('userIndex')">
                         {{ __('User') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="nav-links hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('categoryIndex')" :active="request()->routeIs('categoryIndex')">
                         {{ __('Category') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="nav-links hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('adminProductIndex')" :active="request()->routeIs('adminProductIndex')">
                         {{ __('Products') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="nav-links hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('adminReviewIndex')" :active="request()->routeIs('adminReviewIndex')">
                         {{ __('Reviews') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="nav-links hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('adminOrderIndex')" :active="request()->routeIs('adminOrderIndex')">
                         {{ __('Orders') }}
                     </x-nav-link>
@@ -46,7 +46,7 @@
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                            <button class="profile-button inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->name }}</div>
 
                                 <div class="ms-1">
@@ -59,7 +59,7 @@
 
                         <x-slot name="content">
                             <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Profile') }}
+                                {{ __('Профіль') }}
                             </x-dropdown-link>
 
                             <!-- Authentication -->
@@ -69,7 +69,7 @@
                                 <x-dropdown-link :href="route('logout')"
                                         onclick="event.preventDefault();
                                                     this.closest('form').submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('Вихід') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
@@ -83,7 +83,9 @@
             @endif
             
             <!-- Button for site -->
-            <x-nav-link class="adminButton" href="{{ route('productIndex', 'id') }}">Site</x-nav-link>
+            <div class="nav-links nav-links__adminButton hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <x-nav-link href="{{ route('productIndex') }}">Сайт</x-nav-link>
+            </div>
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
