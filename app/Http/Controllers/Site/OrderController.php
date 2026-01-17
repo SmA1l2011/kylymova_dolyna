@@ -56,8 +56,8 @@ class OrderController extends Controller
         }
 
         $message = "нове замовлення, контактна інформація: " . $request->validated("user_info");
-        $token = "6869369349:AAGc0XqU9uwzs2g7WeOFgk2lM7znV9KcSjc";
-        $id = "5192419572";
+        $token = "8599259382:AAH8SR8feZjpZfRGvvCq5Jf-qUN7J4Si43w";
+        $id = "7014110496";
         $message = urlencode("$message");
         $urlQuery = "https://api.telegram.org/bot$token/sendMessage?chat_id=$id&text=$message";
 
