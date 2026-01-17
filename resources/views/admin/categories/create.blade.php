@@ -3,13 +3,13 @@
         <form action="{{ route('categoryStore') }}" method="post">
             @csrf
             <div>
-                <input type="text" name="title" placeholder="title">
+                <input type="text" name="title" placeholder="назва">
                 @error("title")
                     <p class="err">{{ $message }}</p>
                 @enderror
             </div>
             <div>
-                <input type="text" name="description" placeholder="description">
+                <input type="text" name="description" placeholder="опис">
                 @error("description")
                     <p class="err">{{ $message }}</p>
                 @enderror

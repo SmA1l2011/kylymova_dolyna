@@ -34,25 +34,41 @@
             <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-12345678" height="0" width="0" style="display:none;visibility:hidden"></iframe>
         </noscript>
         <!-- End Google Tag Manager (noscript) -->
-        <div class="bg-block min-h-screen bg-gray-100 dark:bg-gray-900">
-            <!-- Page Heading -->
-            @isset($header)
-            <header class="bg-white dark:bg-gray-800 shadow">
-                    @if (explode("/", request()->url())[5] === "site")
-                        @include('layouts.navigation')
-                    @else
-                        @include('layouts.navigationAdmin')
-                    @endif
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
 
-            <!-- Page Content -->
-            <main>
+        <!-- Page Heading -->
+        @isset($header)
+            <header class="bg-white dark:bg-gray-800 shadow">
+                @if (explode("/", request()->url())[5] === "site")
+                    @include('layouts.navigation')
+                @else
+                    @include('layouts.navigationAdmin')
+                @endif
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endisset
+        
+        <!-- Page Content -->
+        <main>
+            <div class="bg-block min-h-screen bg-gray-100 dark:bg-gray-900">
                 {{ $slot }}
-            </main>
-        </div>
+            </div>
+        </main>
+        <footer>
+            <div class="wrapper flex">
+                <a class="tel" href="tel:+380 67 282 20 41">+380 67 282 20 41</a>
+                <div class="info">
+                    <p class="copy">&copy; 2026 kylymova_dolyna. Всі права захищені.</p>
+                    <p class="developer">Розробка сайту - <a href="https://t.me/SmA1l2011" target="_blank">@SmA1l2011</a></p>
+                </div>
+                <div class="social-media">
+                    <a class="inst" href="https://instagram.com/kylymova_dolyna" target="_blank"></a>
+                    <a class="fb" href="https://facebook.com/sasa.petak.2025" target="_blank"></a>
+                    <a class="vb" href="viber://chat?number=+380672822041" target="_blank"></a>
+                    <a class="tg" href="https://t.me/SHAMAN1298" target="_blank"></a>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>

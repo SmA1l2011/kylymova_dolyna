@@ -30,8 +30,8 @@ class CategoryRequest extends FormRequest
     public function messages()
     {
         return [
-            "title" => "title is required and has to be no more than 255",
-            "description" => "description is required and has to be no more than 999",
+            "title" => "заголовок є обов'язковим і не повинен перевищувати 255 символів",
+            "description" => "опис є обов'язковим і не повинен перевищувати 999 символів",
         ];
     }
 }

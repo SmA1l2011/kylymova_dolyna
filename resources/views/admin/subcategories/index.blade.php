@@ -1,7 +1,6 @@
 <x-app-layout>
     <x-slot name="slot">
         <div class="wrapper">
-            <a class="backButton" href="{{ route('categoryIndex') }}">Back</a>
             <table class="table">
                 <thead>
                     <tr>

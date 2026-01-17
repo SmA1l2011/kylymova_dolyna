@@ -23,27 +23,34 @@
                 <form action="{{ route('adminReviewIndex') }}" method="get" class="sort-block">
                     <p>Сортувати:</p>
                     @isset ($_GET['sortBy'])
-                        @if ($_GET['sortBy'] == 'id')
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="id">
+                        @if ($_GET['sortBy'] == 'Найновіше')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Найновіше">
                         @else
-                            <input type="submit" name="sortBy" value="id">
+                            <input type="submit" name="sortBy" value="Найновіше">
+                        @endif
+    
+                        @if ($_GET['sortBy'] == 'Найдавніше')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Найдавніше">
+                        @else
+                            <input type="submit" name="sortBy" value="Найдавніше">
                         @endif
         
-                        @if ($_GET['sortBy'] == 'product_id')
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="product_id">
+                        @if ($_GET['sortBy'] == 'id товару')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="id товару">
                         @else
-                            <input type="submit" name="sortBy" value="product_id">
+                            <input type="submit" name="sortBy" value="id товару">
                         @endif
         
-                        @if ($_GET['sortBy'] == 'rating')
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="rating">
+                        @if ($_GET['sortBy'] == 'рейтинг')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="рейтинг">
                         @else
-                            <input type="submit" name="sortBy" value="rating">
+                            <input type="submit" name="sortBy" value="рейтинг">
                         @endif
                     @else
-                        <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="id">
-                        <input type="submit" name="sortBy" value="product_id">
-                        <input type="submit" name="sortBy" value="rating">
+                        <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Найновіше">
+                        <input type="submit" name="sortBy" value="Найдавніше">
+                        <input type="submit" name="sortBy" value="id товару">
+                        <input type="submit" name="sortBy" value="рейтинг">
                     @endif
         
                     @foreach ($_GET as $key => $value)
@@ -56,40 +63,48 @@
                     <p>Чи підтверджений:</p>
                     @isset ($_GET["is_active"])
                         @if ($_GET["is_active"] == "all")
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="is_active" value="all">
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="is_active" value="всі">
                         @else
-                            <input type="submit" name="is_active" value="all">
+                            <input type="submit" name="is_active" value="всі">
                         @endif
+
                         @if ($_GET["is_active"] == "yes")
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="is_active" value="yes">
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="is_active" value="так">
                         @else
-                            <input type="submit" name="is_active" value="yes">
+                            <input type="submit" name="is_active" value="так">
                         @endif
+
                         @if ($_GET["is_active"] == "no")
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="is_active" value="no">
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="is_active" value="ні">
                         @else
-                            <input type="submit" name="is_active" value="no">
+                            <input type="submit" name="is_active" value="ні">
                         @endif
                     @else
-                        <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="is_active" value="all">
-                        <input type="submit" name="is_active" value="yes">
-                        <input type="submit" name="is_active" value="no">
+                        <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="is_active" value="всі">
+                        <input type="submit" name="is_active" value="так">
+                        <input type="submit" name="is_active" value="ні">
                     @endif
                     <p>Фільтрувати:</p>
-                    <select name="product_id">
-                        <option value="all">all</option>
-                        @foreach ($allProducts as $product)
-                            @if (isset($_GET["product_id"]) && $product->id == $_GET["product_id"])
-                                <option selected value="{{ $product->id }}">{{ $product->id }}. {{ $product->title }}</option>
-                            @else
-                                <option value="{{ $product->id }}">{{ $product->id }}. {{ $product->title }}</option>
-                            @endif
-                        @endforeach
-                    </select>
+                    <label>
+                        <span>товар</span>
+                        <select name="product_id">
+                            <option value="all">всі</option>
+                            @foreach ($allProducts as $product)
+                                @if (isset($_GET["product_id"]) && $product->id == $_GET["product_id"])
+                                    <option selected value="{{ $product->id }}">{{ $product->id }}. {{ $product->title }}</option>
+                                @else
+                                    <option value="{{ $product->id }}">{{ $product->id }}. {{ $product->title }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </label>
+                    <label>
+                        <span>&nbsp;</span>
+                        <input type="submit" value="Підтвердити">
+                    </label>
                     @isset ($_GET["sortBy"]) 
                         <input type="hidden" name="sortBy" value="{{ $_GET['sortBy'] }}">
                     @endif
-                    <input type="submit" value="sand">
                 </form>
             </div>
             <form action="{{ route('adminReviewIndex') }}" method="get" class="clear-filter__block clear-filter__block-active">
@@ -100,18 +115,16 @@
         </nav>  
     </x-slot>
     <x-slot name="slot">
-        <div class="wrapper">
+        <div class="wrapper review-wrapper">
             <table class="table reviews__table">
                 <thead>
                     <tr>
                         <th>id</th>
-                        <th>product_id</th>
-                        <th>name</th>
-                        <th>rating</th>
-                        <th>comment</th>
-                        <th>is_active</th>
-                        <th>action</th>
-                        <th>subreviews</th>
+                        <th>id товару</th>
+                        <th>ім'я</th>
+                        <th>рейтинг</th>
+                        <th>коментар</th>
+                        <th>чи включений</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -122,15 +135,13 @@
                             <td>{{ $review->name }}</td>
                             <td>{{ $review->rating }}</td>
                             <td>{{ $review->comment }}</td>
-                            <td>{{ $review->is_active ? "yes" : "no" }}</td>
                             <td>
                                 <form class="review__form" action="{{ route('adminReviewStore') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $review->id }}">
-                                    <input type="submit" name="is_active" value="{{ $review->is_active ? 'not approve' : 'approve' }}">
+                                    <input type="submit" name="is_active" value="{{ $review->is_active ? 'підтверджений' : 'не підтверджений' }}" class="{{ $review->is_active ? 'approve' : 'notApprove' }}">
                                 </form>
                             </td>
-                            <td><a class="subreviewsButton" href="{{ route('adminSubreviewIndex', $review->id) }}">subreviews</a></td>
                         </tr>
                     @endforeach
                 </tbody>

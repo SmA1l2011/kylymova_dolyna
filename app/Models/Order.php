@@ -33,12 +33,26 @@ class Order extends Model
             $query->where("user_id", $filters["user_id"]);
         }
         $query = $query->get();
-        if ($sortBy == "priceD") {
-            $products = $query->sortBy("price", SORT_REGULAR, "desc");
-        } elseif ($sortBy == "priceU") {
-            $products = $query->sortBy("price");
-        } else {
-            $products = $query->sortBy($sortBy);
+        switch ($sortBy) {
+            case "newest":
+                $products = $query->sortBy("created_at", SORT_REGULAR, "desc");
+            break;
+
+            case "oldest":
+                $products = $query->sortBy("created_at");
+            break;
+
+            case "priceU":
+                $products = $query->sortBy("price");
+            break;
+            
+            case "priceD":
+                $products = $query->sortBy("price", SORT_REGULAR, "desc");
+            break;
+            
+            default:
+                $products = $query->sortBy($sortBy);
+            break;
         }
         return $products;
     }
@@ -48,6 +62,7 @@ class Order extends Model
         DB::table("orders")->insert([
             "product_id" => $data["product_id"],
             "user_id" => $data["user_id"],
+            "user_info" => $data["user_info"],
             "count" => $data["count"],
             "price" => $data["price"],
             "created_at" => now(),

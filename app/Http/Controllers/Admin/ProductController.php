@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subcategory;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
@@ -146,9 +147,26 @@ class ProductController extends Controller
     public function product(int $id)
     {
         $product = Product::getProduct($id);
-
         $productGTM = $this->service->viewProductPage($product);
+        $allReviews = Review::getAllReviews($id, ["sortBy" => "rating"], true);
+        $sumRating = 0;
+        $ratingCount = [
+            5 => 0,
+            4 => 0, 
+            3 => 0, 
+            2 => 0, 
+            1 => 0
+        ];
+        foreach ($allReviews as $key => $review) {
+            $ratingCount[$review->rating]++;
+            $sumRating += $review->rating;
+        }
+        if ($sumRating == 0) {
+            $avgRating = 0;
+        } else {
+            $avgRating = round($sumRating / count($allReviews), 2);
+        }
 
-        return view("admin/products/product", compact("product", "productGTM"));
+        return view("admin/products/product", compact("product", "productGTM", "allReviews", "avgRating", "ratingCount"));
     }
 }

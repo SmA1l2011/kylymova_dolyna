@@ -22,11 +22,9 @@ class ProductRequest extends FormRequest
      */
     public function rules(Request $request): array
     {
-        // dd($request->all());
         return [
             "subcategory_id" => ["required", "integer", "exists:subcategories,id"],
             "title" => ["required", "string", "max:255"],
-            "description" => ["required", "string", "max:999"],
             "price" => ["required", "numeric", "max:999999"],
             "picture" => ["image", "mimes:jpg,jpeg,png,webp"],
         ];
@@ -35,11 +33,10 @@ class ProductRequest extends FormRequest
     public function messages()
     {
         return [
-            "subcategory_id" => "id is required and has to be no more than 11",
-            "title" => "title is required and has to be no more than 255",
-            "description" => "description is required and has to be no more than 999",
-            "price" => "price is required and has to be no more than 999",
-            "picture" => "picture is required and must be in jpg, jpeg, png, or webp format",
+            "subcategory_id" => "ідентифікатор підкатегорії є обов'язковим і не повинен перевищувати 11 символів",
+            "title" => "заголовок є обов'язковим і не повинен перевищувати 255 символів",
+            "price" => "ціна є обов'язковою і не повинна перевищувати 999999",
+            "picture" => "фотографія є обов'язковою і повинна бути у форматі jpg, jpeg, png або webp",
         ];
     }
 }

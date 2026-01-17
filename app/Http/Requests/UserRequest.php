@@ -36,12 +36,12 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            "name" => "name is required and has to be no more than 255",
-            "surname" => "surname has to be no more than 255",
-            "email" => "email is required and has to be no more than 255",
-            "phone" => "phone is required and has to be no more than 255",
+            "name" => "ім'я є обов'язковим і не повинно перевищувати 255 символів",
+            "surname" => "прізвище не повинно містити більше 255 символів",
+            "email" => "електронна адреса є обов'язковою і не повинна перевищувати 255 символів",
+            "phone" => "телефон є обов'язковим і не повинен містити більше 255 символів",
             "password" => "password has to be no more than 255",
-            "role" => "role is required and has to be no more than 255",
+            "role" => "роль є обов'язковою і не повинна перевищувати 255",
         ];
     }
 }

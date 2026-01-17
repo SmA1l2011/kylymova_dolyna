@@ -13,24 +13,32 @@ class OrderController extends Controller
     {
         if (isset($_GET["sortBy"])) {
             switch ($_GET["sortBy"]) {
-                case "default":
-                    $sortBy = "id";
-                    break;
-
-                case "price down":
+                case "Ціна вниз":
                     $sortBy = "priceD";
                     break;
 
-                case "price up":
+                case "Ціна вгору":
                     $sortBy = "priceU";
                     break;
 
+                case "id товару":
+                    $sortBy = "product_id";
+                    break;
+
+                case "кількість":
+                    $sortBy = "count";
+                    break;
+                    
+                case "Найдавніше":
+                    $sortBy = "oldest";
+                    break;
+
                 default:
-                    $sortBy = $_GET["sortBy"];
+                    $sortBy = "newest";
                     break;
             }
         } else {
-            $sortBy = "id";
+            $sortBy = "newest";
         }
         $filters = [];
         foreach ($_GET as $key => $value) {

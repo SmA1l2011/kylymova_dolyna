@@ -1,11 +1,21 @@
 <x-app-layout>
+    <x-slot name="header">
+        <nav class="filter-sort">
+            <form action="{{ route('productIndex') }}" method="get" class="search-block"> 
+                <div class="search">
+                    <span class="search-icon"></span>
+                    <input type="text" name="title" placeholder="Я шукаю..." value="{{ $_GET['title'] ?? '' }}">
+                    <input type="submit" value="Знайти">
+                </div>
+            </form>
+        </nav>
+    </x-slot>
     <x-slot name="slot">
-        <a class="backButton" href="{{ route('product', request('id')) }}">Back</a>
         <div class="wrapper">
+            <h2 class="attention-h2">Увага!!! Ваш відгук не буде відображатися на сайті відразу, він з'явиться після перевірки адміністрацією сайту.</h2>
             @foreach ($allReviews as $review)
-                <a href="{{ route('subreviewIndex', [request('id'), $review->id]) }}" class="review-block">
+                <div class="review-block">
                     <div class="review__user-rating">
-                        <span class="review__user-img"></span>
                         <p>{{ $review->name }}</p>
                         <div class="review__stars">
                             <?php $count = $review->rating ?>
@@ -20,7 +30,7 @@
                         </div>
                     </div>
                     <p class="review__comment">{{ $review->comment }}</p>
-                </a>
+                </div>
             @endforeach
         </div>
         <form action="{{ route('productReviewsStore') }}" method="post" class="createReviewsForm">
@@ -33,7 +43,7 @@
                 <span class="star" id="star"></span>
                 <span class="star" id="star"></span>
             </div>
-            <textarea name="comment" cols="90" rows="1.5"></textarea>
+            <textarea name="comment" cols="90" rows="1.5" maxlength="500"></textarea>
             <input type="hidden" name="product_id" value="{{ request('id') }}">
             <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
             <input type="submit" name="send" value="">

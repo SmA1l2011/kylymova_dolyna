@@ -17,33 +17,46 @@ class Review extends Model
      */
     public $fillable = [
         'product_id',
-        'customer_id',
+        'user_id',
         'rating',
         'comment',
     ];
 
-    public static function getAllReviews($id = null, $get = [], $is_site = false)
+    public static function getAllReviews($id = null, $get = [], $is_site = false, $sortBy = "newest")
     {
-        $query = DB::table("reviews")->join("users", "reviews.user_id", "=", "users.id")
-            ->select("reviews.*", "users.name");
+        // $query = DB::table("reviews")->join("users", "reviews.user_id", "=", "users.id")->select("reviews.*", "users.name");
+        $query = Review::query();
         if ($is_site == true) {
             $query->where("reviews.is_active", true);
         }
         if ($id !== null) {
             $query->where("reviews.product_id", $id);
         }
-        if (isset($get["is_active"]) && $get["is_active"] !== "all") {
-            $query->where("reviews.is_active", $get["is_active"] == "yes" ? true : false);
+        if (isset($get["is_active"]) && $get["is_active"] !== "всі") {
+            $query->where("reviews.is_active", $get["is_active"] == "так" ? true : false);
         }
         if (isset($get["product_id"]) && $get["product_id"] !== "all") {
             $query->where("reviews.product_id", $get["product_id"]);
         }
-        if (isset($get["sortBy"])) {
-            $query->orderBy($get["sortBy"], $get["sortBy"] == "rating" ? "desc" : "asc");
-        } else {
-            $query->orderBy("id");
+        $query = $query->get();
+        switch ($sortBy) {
+            case "newest":
+                $reviews = $query->sortBy("created_at", SORT_REGULAR, "desc");
+            break;
+
+            case "oldest":
+                $reviews = $query->sortBy("created_at");
+            break;
+
+            case "rating":
+                $reviews = $query->sortBy("rating", SORT_REGULAR, "desc");
+            break;
+            
+            default:
+                $reviews = $query->sortBy($sortBy);
+            break;
         }
-        $reviews = $query->get();
+        // dd($reviews);
         return $reviews;
     }
 

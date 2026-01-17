@@ -24,31 +24,31 @@
                 <form action="{{ route('adminProductIndex') }}" method="get" class="sort-block">
                     <p>Сортувати:</p>
                     @isset ($_GET['sortBy'])
-                        @if ($_GET['sortBy'] == 'newest')
+                        @if ($_GET['sortBy'] == 'Найновіше')
                             <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Найновіше">
                         @else
                             <input type="submit" name="sortBy" value="Найновіше">
                         @endif
     
-                        @if ($_GET['sortBy'] == 'oldest')
+                        @if ($_GET['sortBy'] == 'Найдавніше')
                             <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Найдавніше">
                         @else
                             <input type="submit" name="sortBy" value="Найдавніше">
                         @endif
                         
-                        @if ($_GET['sortBy'] == 'price up')
-                        <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Ціна вгору">
+                        @if ($_GET['sortBy'] == 'Ціна вгору')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Ціна вгору">
                         @else
-                        <input type="submit" name="sortBy" value="Ціна вгору">
+                            <input type="submit" name="sortBy" value="Ціна вгору">
                         @endif
-    
-                        @if ($_GET['sortBy'] == 'price down')
-                        <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Ціна вниз">
+
+                        @if ($_GET['sortBy'] == 'Ціна вниз')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Ціна вниз">
                         @else
-                        <input type="submit" name="sortBy" value="Ціна вниз">
+                            <input type="submit" name="sortBy" value="Ціна вниз">
                         @endif
                         
-                        @if ($_GET['sortBy'] == 'title')
+                        @if ($_GET['sortBy'] == 'Назва')
                             <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Назва">
                         @else
                             <input type="submit" name="sortBy" value="Назва">
@@ -130,7 +130,7 @@
             @foreach ($allProducts as $product)
                 <a href="{{ route('adminProduct', $product->id) }}" class="product">
                     @if ($product->picture == NULL)
-                        <img src="{{ Vite::asset('resources/img/carpet.jpg') }}" alt="{{ $product->title }}">
+                        <img src="{{ Vite::asset('resources/img/carpet.jpg') }}" alt="{{ $product->title }}" class="picture">
                     @else
                         <img src="{{ Vite::asset('resources/img/' . $product->picture) }}" alt="{{ $product->title }}" class="picture">
                     @endif

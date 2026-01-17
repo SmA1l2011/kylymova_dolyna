@@ -80,4 +80,13 @@
                 }
             }
         }
+
+        // let orderNumber = document.querySelector(".orderNumber"),
+        //     orderForm = document.querySelector(".orderForm")
+
+        // if (orderNumber) {
+        //     category.oninput = function () {
+        //         orderForm.submit()
+        //     }
+        // }
     }

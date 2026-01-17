@@ -16,16 +16,16 @@
                 <thead>
                     <tr>
                         <th>id</th>
-                        <th>name</th>
-                        <th>surname</th>
-                        <th>email</th>
-                        <th>phone</th>
-                        <th>password</th>
-                        <th>role</th>
-                        <th>created_at</th>
-                        <th>updated_at</th>
-                        <th>apply</th>
-                        <th>delete</th>
+                        <th>ім'я</th>
+                        <th>прізвище</th>
+                        <th>електронна пошта</th>
+                        <th>телефон</th>
+                        <th>пароль</th>
+                        <th>роль</th>
+                        <th>створено о</th>
+                        <th>оновлено о</th>
+                        <th>застосовувати</th>
+                        <th>видалити</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,7 +62,7 @@
                                             <input class="table-submit" type="submit" value="delete">
                                         </form>
                                     @else
-                                        <p>this is your account</p>
+                                        <p>це ваш обліковий запис</p>
                                     @endif
                                 </td>
                             </tr> 

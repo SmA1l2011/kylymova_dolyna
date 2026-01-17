@@ -32,10 +32,10 @@ class ReviewRequest extends FormRequest
     public function messages()
     {
         return [
-            "product_id" => "product_id is required and has to be no more than 11",
-            "user_id" => "user_id is required and has to be no more than 11",
-            "rating" => "rating is required and has to be no more than 6",
-            "comment" => "comment is required and has to be no more than 999999",
+            "product_id" => "product_id є обов'язковим і не повинен перевищувати 11 символів",
+            "user_id" => "user_id є обов'язковим і не може містити більше 11 символів",
+            "rating" => "рейтинг є обов'язковим і не повинен перевищувати 6 символів",
+            "comment" => "коментар є обов'язковим і не повинен перевищувати 999999 символів",
         ];
     }
 }

@@ -17,7 +17,6 @@ class Product extends Model
     public $fillable = [
         'subcategory_id',
         'title',
-        'description',
         'price',
         'picture',
     ];
@@ -47,7 +46,9 @@ class Product extends Model
         if (!empty($productsArr)) {
             $arr = [];
             foreach ($productsArr as $product) {
-                $arr[] = $product[0];
+                if (isset($product[0])) {
+                    $arr[] = $product[0];
+                }
             }
             $query->whereIn("id", $arr);
         }
@@ -81,7 +82,6 @@ class Product extends Model
         DB::table("products")->insert([
             "subcategory_id" => $data["subcategory_id"],
             "title" => $data["title"],
-            "description" => $data["description"],
             "price" => $data["price"],
             "picture" => $picture,
             "created_at" => now(),
@@ -94,7 +94,6 @@ class Product extends Model
         DB::table("products")->where('id', $id)->update([
             "subcategory_id" => $data["subcategory_id"],
             "title" => $data["title"],
-            "description" => $data["description"],
             "price" => $data["price"],
             "updated_at" => now(),
         ]);

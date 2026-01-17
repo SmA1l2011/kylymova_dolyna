@@ -8,12 +8,10 @@ use App\Http\Controllers\Site\OrderController;
 use App\Http\Controllers\Site\ReviewController;
 use App\Http\Controllers\Site\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Site\SubreviewController;
 use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
-use App\Http\Controllers\Admin\SubreviewController as AdminSubreviewController;
 
 Route::get('/', function () {
     return redirect()->route('productIndex');
@@ -26,11 +24,9 @@ Route::prefix('site')->group(function () {
     Route::post('/products/reviews/store', [ReviewController::class, 'store'])->name('productReviewsStore');
     Route::get('/products/product/{id}', [ProductController::class, 'product'])->name('product');
 
-    Route::get('/products/reviews/subreviews/index/{product_id}/{id}', [SubreviewController::class, 'index'])->name('subreviewIndex');
-    Route::post('/products/reviews/subreviews/store', [SubreviewController::class, 'store'])->name('subreviewStore');
-
     Route::get('/orders/index', [OrderController::class, 'index'])->name('orderIndex');
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orderStore');
+    Route::post('/orders/storeApply', [OrderController::class, 'storeApply'])->name('orderStoreApply');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -72,9 +68,6 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
         Route::get('/reviews/index', [AdminReviewController::class, 'index'])->name('adminReviewIndex');
         Route::post('/reviews/store', [AdminReviewController::class, 'store'])->name('adminReviewStore');
-
-        Route::get('/subreviews/index/{id}', [AdminSubreviewController::class, 'index'])->name('adminSubreviewIndex');
-        Route::post('/subreviews/store', [AdminSubreviewController::class, 'store'])->name('adminSubreviewStore');
 
         Route::get('/orders/index', [AdminOrderController::class, 'index'])->name('adminOrderIndex');
         Route::delete('/orders/delete/{id}', [AdminOrderController::class, 'delete'])->name('orderDelete');

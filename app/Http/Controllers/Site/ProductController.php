@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subcategory;
+use App\Models\Review;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -79,13 +80,26 @@ class ProductController extends Controller
     {
         if (Session::has("orders")) {
             $orders = [];
-            $orders[] = [$request->post("order"), 1, $request->post("price")];
+            $is_set = true;
             foreach (Session::get("orders") as $order) {
+                if ($order[0] == $request->post("order")) {
+                    $order[1]++;
+                    $is_set = false;
+                }
                 $orders[] = $order;
             }
+            if ($is_set == true) {
+                $orders[] = [$request->post("order"), 1, $request->post("price")];
+            }
             Session::put("orders", $orders);
+            if (Session::has("is_order")) {
+                Session::forget("is_order");
+            }
         } else {
             Session::put("orders", [0 => [$request->post("order"), 1, $request->post("price")]]);
+            if (Session::has("is_order")) {
+                Session::forget("is_order");
+            }
         }
         return to_route("orderIndex");
     }
@@ -93,6 +107,24 @@ class ProductController extends Controller
     public function product(int $id)
     {
         $product = Product::getProduct($id);
-        return view("site/products/product", compact("product"));
+        $allReviews = Review::getAllReviews($id, ["sortBy" => "rating"], true);
+        $sumRating = 0;
+        $ratingCount = [
+            5 => 0,
+            4 => 0, 
+            3 => 0, 
+            2 => 0, 
+            1 => 0
+        ];
+        foreach ($allReviews as $key => $review) {
+            $ratingCount[$review->rating]++;
+            $sumRating += $review->rating;
+        }
+        if ($sumRating == 0) {
+            $avgRating = 0;
+        } else {
+            $avgRating = round($sumRating / count($allReviews), 2);
+        }
+        return view("site/products/product", compact("product", "allReviews", "avgRating", "ratingCount"));
     }
 }

@@ -23,48 +23,48 @@
                 <form action="{{ route('adminOrderIndex') }}" method="get" class="sort-block">
                     <p>Сортувати:</p>
                     @isset ($_GET['sortBy'])
-                        @if ($_GET['sortBy'] == 'default')
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="default">
+                        @if ($_GET['sortBy'] == 'Найновіше')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Найновіше">
                         @else
-                            <input type="submit" name="sortBy" value="default">
+                            <input type="submit" name="sortBy" value="Найновіше">
+                        @endif
+    
+                        @if ($_GET['sortBy'] == 'Найдавніше')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Найдавніше">
+                        @else
+                            <input type="submit" name="sortBy" value="Найдавніше">
+                        @endif
+                        
+                        @if ($_GET['sortBy'] == 'id товару')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="id товару">
+                        @else
+                            <input type="submit" name="sortBy" value="id товару">
                         @endif
 
-                        @if ($_GET['sortBy'] == 'product_id')
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="product_id">
+                        @if ($_GET['sortBy'] == 'кількість')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="кількість">
                         @else
-                            <input type="submit" name="sortBy" value="product_id">
+                            <input type="submit" name="sortBy" value="кількість">
                         @endif
 
-                        @if ($_GET['sortBy'] == 'user_id')
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="user_id">
+                        @if ($_GET['sortBy'] == 'Ціна вгору')
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Ціна вгору">
                         @else
-                            <input type="submit" name="sortBy" value="user_id">
+                            <input type="submit" name="sortBy" value="Ціна вгору">
                         @endif
+                        @if ($_GET['sortBy'] == 'Ціна вниз')
 
-                        @if ($_GET['sortBy'] == 'count')
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="count">
+                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Ціна вниз">
                         @else
-                            <input type="submit" name="sortBy" value="count">
-                        @endif
-
-                        @if ($_GET['sortBy'] == 'price down')
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="price down">
-                        @else
-                            <input type="submit" name="sortBy" value="price down">
-                        @endif
-
-                        @if ($_GET['sortBy'] == 'price up')
-                            <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="price up">
-                        @else
-                            <input type="submit" name="sortBy" value="price up">
+                            <input type="submit" name="sortBy" value="Ціна вниз">
                         @endif
                     @else
-                        <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="default">
-                        <input type="submit" name="sortBy" value="product_id">
-                        <input type="submit" name="sortBy" value="user_id">
-                        <input type="submit" name="sortBy" value="count">
-                        <input type="submit" name="sortBy" value="price down">
-                        <input type="submit" name="sortBy" value="price up">
+                        <input style="color: #fff; border-color: #fff; background: transparent;" type="submit" name="sortBy" value="Найновіше">
+                        <input type="submit" name="sortBy" value="Найдавніше">
+                        <input type="submit" name="sortBy" value="id товару">
+                        <input type="submit" name="sortBy" value="кількість">
+                        <input type="submit" name="sortBy" value="Ціна вгору">
+                        <input type="submit" name="sortBy" value="Ціна вниз">
                     @endif
 
                     @foreach ($_GET as $key => $value)
@@ -75,19 +75,31 @@
                 </form>
                 <form action="{{ route('adminOrderIndex') }}" method="get" class="filter-block">
                     <p>Фільтрувати:</p>
-                    <select name="user_id">
-                        <option value="all">all</option>
-                        @foreach ($allUsers as $user)
-                            @if (isset($_GET["user_id"]) && $user->id == $_GET["user_id"])
-                                <option selected value="{{ $user->id }}">{{ $user->name }}</option>
-                            @else
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                    <input type="number" name="minPrice" placeholder="min price" value="{{ $_GET['minPrice'] ?? '' }}">
-                    <input type="number" name="maxPrice" placeholder="max price" value="{{ $_GET['maxPrice'] ?? '' }}">
-                    <input type="submit" value="sand">
+                    <label>
+                        <span>користувач</span>
+                        <select name="user_id">
+                            <option value="all">всі</option>
+                            @foreach ($allUsers as $user)
+                                @if (isset($_GET["user_id"]) && $user->id == $_GET["user_id"])
+                                    <option selected value="{{ $user->id }}">{{ $user->name }}</option>
+                                @else
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </label>
+                    <label>
+                        <span>Мінімальна ціна</span>
+                        <input type="number" name="minPrice" value="{{ $_GET['minPrice'] ?? '' }}">
+                    </label>
+                    <label>
+                        <span>Максимальна ціна</span>
+                        <input type="number" name="maxPrice" value="{{ $_GET['maxPrice'] ?? '' }}">
+                    </label>
+                    <label>
+                        <span>&nbsp;</span>
+                        <input type="submit" value="Підтвердити">
+                    </label>
                     @isset ($_GET["sortBy"]) 
                         <input type="hidden" name="sortBy" value="{{ $_GET['sortBy'] }}">
                     @endif
@@ -101,16 +113,17 @@
         </nav>
     </x-slot>
     <x-slot name="slot">
-        <div class="wrapper">
+        <div class="wrapper order-wrapper order-admin">
             <table class="table">
                 <thead>
                     <tr>
                         <th>id</th>
-                        <th>product_id</th>
-                        <th>user_id</th>
-                        <th>count</th>
-                        <th>price</th>
-                        <th>delete</th>
+                        <th>id товару</th>
+                        <th>id користувача</th>
+                        <th>інформація про користувача</th>
+                        <th>кількість товарів</th>
+                        <th>ціна</th>
+                        <th>видалити</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,6 +136,7 @@
                                     <input class="admin-order_submit" type="submit" name="id" value="{{ $order->user_id }}">
                                 </form>
                             </td>
+                            <td>{{ $order->user_info }}</td>
                             <td>{{ $order->count }}</td>
                             <td>{{ $order->price }}</td>
                             <td>

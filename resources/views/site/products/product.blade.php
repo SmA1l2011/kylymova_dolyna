@@ -1,7 +1,16 @@
 <x-app-layout>
-    <x-slot name="header"></x-slot>
+    <x-slot name="header">
+        <nav class="filter-sort">
+            <form action="{{ route('productIndex') }}" method="get" class="search-block"> 
+                <div class="search">
+                    <span class="search-icon"></span>
+                    <input type="text" name="title" placeholder="Я шукаю..." value="{{ $_GET['title'] ?? '' }}">
+                    <input type="submit" value="Знайти">
+                </div>
+            </form>
+        </nav>
+    </x-slot>
     <x-slot name="slot">
-        <a class="backButton" href="{{ route('productIndex') }}">Back</a>
         <div class="wrapper flex product-page">
             <div class="picture-block">
                 @if ($product->picture == NULL)
@@ -12,9 +21,8 @@
             </div>
             <div class="info-block">
                 <h1>{{ $product->title }}</h1>
-                <p><a href="{{ route('productReviews', $product->id) }}"><b>Відгуки...</b></a></p>
                 <div class="price-block">
-                    <p class="price"><b>{{ $product->price }}$</b></p>
+                    <p class="price"><b>{{ $product->price }}₴</b></p>
                     <form action="{{ route('productStore') }}" method="post">
                         @csrf
                         <label>
@@ -23,6 +31,69 @@
                         <input type="hidden" name="order" value="{{ $product->id }}">
                         <input type="hidden" name="price" value="{{ $product->price }}">
                     </form>
+                </div>
+                <div class="product-page__review">
+                    <p class="reviews-p"><a href="{{ route('productReviews', $product->id) }}">Відгуки {{ count($allReviews) }} шт:</a></p>
+                    <p class="rating-p">Оцінка користувачів<b>
+                        @if ($avgRating == 0)
+                            Оцінки немає</b>
+                        @else
+                            {{ $avgRating }}/5</b><span class="star"></span>
+                        @endif
+                    </p>
+                    <div class="rating-blocks">
+                        <div class="five-stars__block">
+                            <p>5</p>
+                            <span class="star"></span>
+                            @if (count($allReviews) == 0)
+                                <div class="scale"><span></span></div>
+                            @else
+                                <div class="scale"><span style="width: {{ (100 / count($allReviews)) * $ratingCount[5] }}%;"></span></div>
+                            @endif
+                            <p>{{ $ratingCount[5] }}</p>
+                        </div>
+                        <div class="four-stars__block">
+                            <p>4</p>
+                            <span class="star"></span>
+                            @if (count($allReviews) == 0)
+                                <div class="scale"><span></span></div>
+                            @else
+                                <div class="scale"><span style="width: {{ (100 / count($allReviews)) * $ratingCount[4] }}%;"></span></div>
+                            @endif
+                            <p>{{ $ratingCount[4] }}</p>
+                        </div>
+                        <div class="three-stars__block">
+                            <p>3</p>
+                            <span class="star"></span>
+                            @if (count($allReviews) == 0)
+                                <div class="scale"><span></span></div>
+                            @else   
+                                <div class="scale"><span style="width: {{ (100 / count($allReviews)) * $ratingCount[3] }}%;"></span></div>
+                            @endif
+                            <p>{{ $ratingCount[3] }}</p>
+                        </div>
+                        <div class="two-stars__block">
+                            <p>2</p>
+                            <span class="star"></span>
+                            @if (count($allReviews) == 0)
+                                <div class="scale"><span></span></div>
+                            @else
+                                <div class="scale"><span style="width: {{ (100 / count($allReviews)) * $ratingCount[2] }}%;"></span></div>
+                            @endif
+                            <p>{{ $ratingCount[2] }}</p>
+                        </div>
+                        <div class="one-stars__block">
+                            <p>1</p>
+                            <span class="star"></span>
+                            @if (count($allReviews) == 0)
+                                <div class="scale"><span></span></div>
+                            @else
+                                <div class="scale"><span style="width: {{ (100 / count($allReviews)) * $ratingCount[1] }}%;"></span></div>
+                            @endif
+                            <p>{{ $ratingCount[1] }}</p>
+                        </div>
+                    </div>
+                    <a class="send-review" href="{{ route('productReviews', $product->id) }}">Написати відгук</a>
                 </div>
             </div>
         </div>

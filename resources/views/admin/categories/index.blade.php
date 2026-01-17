@@ -15,11 +15,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>title</th>
-                        <th>description</th>
-                        <th>update</th>
-                        <th>delete</th>
-                        <th>subcategory</th>
+                        <th>назва</th>
+                        <th>опис</th>
+                        <th>редагувати</th>
+                        <th>видалити</th>
+                        <th>підкатегорія</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,7 +40,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <a href="{{ route('categoryCreate') }}">create</a>
+            <a href="{{ route('categoryCreate') }}">Створити</a>
         </div>
     </x-slot>
 </x-app-layout>
